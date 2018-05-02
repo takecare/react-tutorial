@@ -1,22 +1,6 @@
 import React from 'react';
 import { Board } from './board.js';
-
-class cHistory extends React.Component {
-
-  constructor(props) {
-    super(props);
-    //
-  }
-
-  render() {
-    return (
-      <div>
-        <p></p>
-      </div>
-    )
-  }
-
-}
+import { History } from './history.js';
 
 export class Game extends React.Component {
 
@@ -64,11 +48,12 @@ export class Game extends React.Component {
 
   renderHistory(historyItem, index) {
     return (
-      <li key={index}>
-        move {index}<br/>
-        {historyItem.squares.filter(item => item != null).length} squares taken<br/>
-        {historyItem.current} was playing
-      </li>
+      <History
+        key={index}
+        index={index}
+        squares={historyItem.squares}
+        current={historyItem.current}
+      />
     )
   }
 
@@ -97,13 +82,14 @@ export class Game extends React.Component {
   }
 
   render() {
-    const current = this.state.history[this.state.history.length - 1];
+    const history = this.state.history
+    const current = history[this.state.history.length - 1];
     const winner = current.winner;
-    const moves = this.state.history.map(this.renderHistory)
+    const moves = (history.length === 1 ? [] : history.slice(0, history.length - 1))
+      .map(this.renderHistory)
 
     return (
       <div className="game">
-        <p><button className={winner ? 'show' : 'hide'} onClick={() => this.restart()}>restart</button></p>
         <div className="game-board">
           <Board
             squares={current.squares}
@@ -114,7 +100,8 @@ export class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{/* TODO */}</div>
-            {moves}
+          <ol>{moves}</ol>
+          <p><button className={winner ? 'show' : 'hide'} onClick={() => this.restart()}>restart</button></p>
         </div>
       </div>
     );

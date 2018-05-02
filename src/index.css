@@ -49,6 +49,12 @@ ol, ul {
   margin-left: 20px;
 }
 
+.history {
+  border: 1px solid black;
+  margin: 5px;
+  padding: 2px;
+}
+
 .hide {
   display: none;
 }
