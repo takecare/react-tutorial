@@ -1,6 +1,23 @@
 import React from 'react';
 import { Board } from './board.js';
 
+class cHistory extends React.Component {
+
+  constructor(props) {
+    super(props);
+    //
+  }
+
+  render() {
+    return (
+      <div>
+        <p></p>
+      </div>
+    )
+  }
+
+}
+
 export class Game extends React.Component {
 
   constructor(props) {
@@ -15,7 +32,14 @@ export class Game extends React.Component {
   }
 
   restart() {
-    console.log('RESTART');
+    const newState = {
+      history: [{
+        squares: Array(9).fill(null),
+        current: 'x',
+        winner: null
+      }]
+    }
+    this.setState(newState)
   }
 
   determineWinner(squares) {
@@ -36,6 +60,16 @@ export class Game extends React.Component {
       }
     }
     return null;
+  }
+
+  renderHistory(historyItem, index) {
+    return (
+      <li key={index}>
+        move {index}<br/>
+        {historyItem.squares.filter(item => item != null).length} squares taken<br/>
+        {historyItem.current} was playing
+      </li>
+    )
   }
 
   handleClick(i) {
@@ -65,6 +99,7 @@ export class Game extends React.Component {
   render() {
     const current = this.state.history[this.state.history.length - 1];
     const winner = current.winner;
+    const moves = this.state.history.map(this.renderHistory)
 
     return (
       <div className="game">
@@ -79,7 +114,7 @@ export class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{/* TODO */}</div>
-          <ol>{/* TODO */}</ol>
+            {moves}
         </div>
       </div>
     );
