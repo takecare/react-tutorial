@@ -46,6 +46,12 @@ export class Game extends React.Component {
     return null;
   }
 
+  handleHistoryClick(index) {
+    const newState = Object.assign({}, this.state)
+    newState.history = this.state.history.slice(0, index + 1)
+    this.setState(newState)
+  }
+
   renderHistory(historyItem, index) {
     return (
       <History
@@ -53,6 +59,7 @@ export class Game extends React.Component {
         index={index}
         squares={historyItem.squares}
         current={historyItem.current}
+        goTo={(index) => this.handleHistoryClick(index)}
       />
     )
   }
@@ -86,7 +93,11 @@ export class Game extends React.Component {
     const current = history[this.state.history.length - 1];
     const winner = current.winner;
     const moves = (history.length === 1 ? [] : history.slice(0, history.length - 1))
-      .map(this.renderHistory)
+      // .map(this.renderHistory)
+      .map((val, index) => {
+        const f = this.renderHistory.bind(this)
+        return f(val, index)
+      })
 
     return (
       <div className="game">
@@ -95,7 +106,7 @@ export class Game extends React.Component {
             squares={current.squares}
             winner={current.winner}
             player={current.current}
-            handleClick={i => this.handleClick(i)}
+            handleClick={(i) => this.handleClick(i)}
           />
         </div>
         <div className="game-info">
