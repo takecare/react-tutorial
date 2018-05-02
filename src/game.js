@@ -59,7 +59,7 @@ export class Game extends React.Component {
         index={index}
         squares={historyItem.squares}
         current={historyItem.current}
-        goTo={(index) => this.handleHistoryClick(index)}
+        goTo={(index) => handleHistoryClick(index)}
       />
     )
   }
@@ -110,7 +110,6 @@ export class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div>{/* TODO */}</div>
           <ol>{moves}</ol>
           <p><button className={winner ? 'show' : 'hide'} onClick={() => this.restart()}>restart</button></p>
         </div>
